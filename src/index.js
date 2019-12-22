@@ -36,14 +36,23 @@ class App extends React.Component {
   }
   // render must be in class component
 
+  componentDidMount() {
+    console.log("component was rendered to the screen");
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("my component was updated!");
+  }
+
   render() {
-    return (
-      <div>
-        Latitude: {this.state.latitude}
-        <br />
-        Error: {this.state.errorMessage}
-      </div>
-    );
+    console.log("rendered");
+    if (this.state.errorMessage && !this.state.latitude) {
+      return <div>Error: {this.state.errorMessage}</div>;
+    } else if (!this.state.errorMessage && this.state.latitude) {
+      return <div>Latitude: {this.state.latitude} </div>;
+    } else {
+      return <div>Loading... </div>;
+    }
   }
 }
 
