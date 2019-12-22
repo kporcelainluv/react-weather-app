@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { SeasonDisplay } from "./seasonDisplay";
+// import { SeasonDisplay } from "./seasonDisplay";
 
 // const App = () => {
 //   window.navigator.geolocation.getCurrentPosition(
@@ -22,16 +22,28 @@ class App extends React.Component {
     // as we extend it from react component, we must inherit
     super(props);
     // if value is a number one uses null
-    this.state = { latitude: null };
+    this.state = { latitude: null, errorMessage: "" };
+
+    window.navigator.geolocation.getCurrentPosition(
+      position => {
+        this.setState({ latitude: position.coords.latitude });
+      },
+
+      err => {
+        this.setState({ errorMessage: err.message });
+      }
+    );
   }
   // render must be in class component
-  render() {
-    window.navigator.geolocation.getCurrentPosition(
-      position => console.log(position),
-      err => console.log(err)
-    );
 
-    return <div>Latitude: {this.state.latitude}</div>;
+  render() {
+    return (
+      <div>
+        Latitude: {this.state.latitude}
+        <br />
+        Error: {this.state.errorMessage}
+      </div>
+    );
   }
 }
 
